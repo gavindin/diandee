@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="redisCache" class="com.diandee.cache.client.RedisCache">
+	    <constructor-arg index="0" value="${redis.host}" />
+	    <constructor-arg index="1" value="${redis.port}" />
+	    <constructor-arg index="2" value="${redis.timeout}" />
+	    <constructor-arg index="3" value="${redis.password}" />
+		<constructor-arg index="4" ref="redisPoolConfig" />
+		<!-- 指定序列器  -->
+		<property name="serializer" ref="protostuffSerializer" />
+	</bean>
+
+	<!-- Jedis连接池配置 -->
+	<bean id="redisPoolConfig" class="com.diandee.cache.client.config.RedisPoolConfig">
+		<property name="maxTotal" value="20" />
+		<property name="maxIdle" value="5" />
+		<property name="minIdle" value="1" />
+		<property name="maxWaitMillis" value="30000" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnReturn" value="true" />
+		<property name="testOnBorrow" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="300000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+	</bean>
+	
+	<!--protostuff序列化器  -->
+	<bean id="protostuffSerializer" class="com.diandee.cache.serializer.ProtostuffSerializer"/>
+</beans>
