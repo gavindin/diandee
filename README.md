@@ -1,2 +1,2 @@
 # diandee
-my private project and contribute to every one.
+use jedis to operate redis.
